@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COVID-19 Data Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container my-3">
+    <h1>COVID-19 Data Dashboard</h1>
+
+    <form>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="location" class="form-label">Location</label>
+          <select id="location" name="location" class="form-select" onchange="this.form.submit()">
+            {% for location in locations %}
+            <option {% if selected_location==location %}selected{% endif %}>{{ location }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="from" class="form-label">From</label>
+          <input id="from" name="from" class="form-control" type="date" onchange="this.form.submit()" {% if from_date
+            %}value="{{ from_date }}" {% endif %}>
+        </div>
+
+        <div class="col-md-3">
+          <label for="to" class="form-label">To</label>
+          <input id="to" name="to" class="form-control" type="date" onchange="this.form.submit()" {% if to_date
+            %}value="{{ to_date }}" {% endif %}>
+        </div>
+
+        <div class="col-md-3 pt-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="metric" id="metric_new_cases" value="new_cases"
+              onchange="this.form.submit()" {% if selected_metric=='new_cases' %}checked{% endif %}>
+            <label class="form-check-label" for="metric_new_cases">
+              New cases
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="metric" id="metric_new_deaths" value="new_deaths"
+              onchange="this.form.submit()" {% if selected_metric=='new_deaths' %}checked{% endif %}>
+            <label class="form-check-label" for="metric_new_deaths">
+              New deaths
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <img alt="Bar chart of COVID-19 data in {{ location }}" src="/static/chart.png" />
+  </div>
+</body>
+
+</html>
